@@ -4,6 +4,7 @@ const asyncHandler = require("express-async-handler");
 const { Post, validateCreatePost, validateUpdatePost } = require("../models/Post");
 const { cloudinaryUploadImage, cloudinaryremoveImage } = require("../utils/cloudinary");
 const { title } = require("process");
+const {Comment} = require("../models/Comment")
 
 // Create New Post
 module.exports.createPostCtrl = asyncHandler (async (req, res)=>{
@@ -80,7 +81,8 @@ module.exports.GetAllPostsCtrl = asyncHandler (async (req, res)=>{
 
 module.exports.GetSinglePostCtrl = asyncHandler (async (req, res)=>{
     const post = await Post.findById(req.params.id)
-        .populate("user", ["-password"]);
+        .populate("user", ["-password"])
+        .populate("comments");
 
     if(!post)
     {
@@ -91,8 +93,6 @@ module.exports.GetSinglePostCtrl = asyncHandler (async (req, res)=>{
     res.status(200).json({post});
 
 });
-
-
 
 
 
@@ -119,7 +119,8 @@ module.exports.DeletePostCtrl = asyncHandler (async (req, res)=>{
         await Post.findByIdAndDelete(req.params.id);
         await cloudinaryremoveImage(post.image.publicId);
 
-        // TODO - Delete All Commments that Belong to this Post
+        // Delete All Commments that Belong to this Post
+        await Comment.deleteMany({postId: post._id});
 
         res.status(200).json({message: "post has been deleted successfully", postId: post._id});
     }

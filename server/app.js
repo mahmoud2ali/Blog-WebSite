@@ -3,6 +3,7 @@ const  connectToDb = require("./config/connectDB")
 const authRoute = require("./routes/authRoute");
 const usersRoute = require("./routes/usersRoute")
 const postRoute= require('./routes/postsRout');
+const commentRoute = require("./routes/commentsRoute")
 require("dotenv").config();
 
 connectToDb();
@@ -16,6 +17,8 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 
 app.use("/api/posts", postRoute)
+
+app.use("/api/comments", commentRoute)
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, ()=>{

@@ -3,9 +3,12 @@ const bcrypt = require("bcryptjs")
 const path = require("path");
 const fs = require("fs");
 const { User, validateUpdateUser } = require("../models/User");
-const { cloudinaryUploadImage, cloudinaryremoveImage } = require("../utils/cloudinary");
+const { cloudinaryUploadImage, cloudinaryremoveImage, cloudinaryremoveMultipleImage } = require("../utils/cloudinary");
 const { use } = require("../routes/usersRoute");
 const { profile } = require("console");
+const {Comment} = require("../models/Comment")
+const {Post} = require("../models/Post")
+
 
 module.exports.getAllUsersCtrl = asynHandler(async(req, res) => {
 
@@ -125,9 +128,21 @@ module.exports.deleteUserProfileCtrl = asynHandler(async(req, res) => {
     {
         return res.status(404).json({message: "user not found"});
     }
+
     // TODO - delete all posts from DB
+    const posts = await Post.find({user: user._id});
+    const publicIds = posts?.map((post) => post.image.publicId);
+
+    if(publicIds?.length > 0)
+    {
+        await cloudinaryremoveMultipleImage(publicIds);
+    }
 
     await cloudinaryremoveImage(user.profilePhoto.publicId); 
+
+    // Delete user posts & comments
+    await Post.deletMany({user: user._id});
+    await Comment.deleteMany({user : user._id});
 
     await User.findByIdAndDelete(req.params.id);
 
