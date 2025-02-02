@@ -61,7 +61,7 @@ function validateCreatePost(Object){
         description: Joi.string().trim().min(10).required,
         category: Joi.string().trim().required,
     });
-    return schema.validate()
+    return schema.validate(Object)
 }
 
 
@@ -73,7 +73,7 @@ function validateUpdatePost(Object){
         description: Joi.string().trim().min(10),
         category: Joi.string().trim(),
     });
-    return schema.validate()
+    return schema.validate(Object)
 }
 
 module.exports = {

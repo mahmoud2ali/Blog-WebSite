@@ -4,6 +4,9 @@ const authRoute = require("./routes/authRoute");
 const usersRoute = require("./routes/usersRoute")
 const postRoute= require('./routes/postsRout');
 const commentRoute = require("./routes/commentsRoute")
+const categoriesRoute = require("./routes/categoriesRoute");
+const { errorHandler, notFound } = require("./middlewares/error");
+
 require("dotenv").config();
 
 connectToDb();
@@ -12,13 +15,16 @@ const app = express();
 
 app.use(express.json());
 
-
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
+app.use("/api/posts", postRoute);
+app.use("/api/comments", commentRoute);
+app.use("/api/categories", categoriesRoute);
 
-app.use("/api/posts", postRoute)
+// Erorr Handler Middleware
+app.use(notFound);
+app.use(errorHandler);
 
-app.use("/api/comments", commentRoute)
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, ()=>{
