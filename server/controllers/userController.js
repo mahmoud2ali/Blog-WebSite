@@ -11,7 +11,7 @@ module.exports.getAllUsersCtrl = asynHandler(async(req, res) => {
 
     // console.log(req.headers.authorization.split(" ")[1]);
 
-    const users = await User.find().select("-password");;
+    const users = await User.find().select("-password").populate("posts");
 
     res.status(200).json(users);
 });
@@ -22,7 +22,7 @@ module.exports.getUserProfileCtrl = asynHandler(async(req, res) => {
     // console.log(req.headers.authorization.split(" ")[1]);
 
 
-    const user = await User.findById(req.params.id).select("-password");
+    const user = await User.findById(req.params.id).select("-password").populate("posts");
 
     if(!user)
     {

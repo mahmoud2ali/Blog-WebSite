@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const { Post } = require("./Post");
 
 const UserSchema = new mongoose.Schema({
     username:{
@@ -44,7 +45,16 @@ const UserSchema = new mongoose.Schema({
     },
 },{
     timestamps: true,
+    toJSON:{virtuals: true},
+    toObject: {virtuals: true}
 });
+
+UserSchema.virtual("posts", {
+        ref: "Post",
+        foreignField: "user",
+        localField: "_id"
+})
+
 
 // generate auth token
 UserSchema.methods.generateAuthToken = function()
