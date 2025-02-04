@@ -1,0 +1,25 @@
+.posts-btn-container{   
+    width: 40vh;
+    margin: auto;
+    height: 50px;
+    margin-bottom: 30px;
+}
+
+.posts-btn{
+    background-color: var(--primary-color);
+    display: inline-block;
+    color: var(--main-color);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    align-content: center;
+    font-size: 15px;
+    font-weight: 300;
+    transition: 0.5s ease;
+}
+
+
+.posts-btn:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--primary-color);
+}

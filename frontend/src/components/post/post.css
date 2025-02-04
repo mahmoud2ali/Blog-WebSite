@@ -1,0 +1,146 @@
+.post-list{
+    width: 55%;
+    margin: 30px auto 0 auto;
+}
+
+.post-item{
+    display: flex;
+    flex-direction: row;
+    height: 40vh;
+    border: 1px solid rgba(0,0,0,0.3);
+    margin: 0 0 25px 0;
+    /* position: relative; */
+    color: var(--primary-color)
+}
+.left{
+    flex: 6;
+}
+
+.right{
+    flex: 6;
+    padding: 25px 0 0 50px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.about{
+    font-weight: 100;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.userName{
+    color: var(--primary-color);
+}
+
+.title{
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.desc-item{
+    width: 95%;
+    font-size: 16px;
+}
+
+.description{
+    font-weight: 200;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.desc-item .-Link{
+    font-size: 16px;
+    font-weight: 100;
+}
+
+.post-footer{
+    bottom: 10px;
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    margin-top: auto;
+    left: 0;
+    /* display: flex;
+    justify-content:center; */
+}
+.post-footer::before{
+    content: "";
+    display: block;
+    background-color: rgba(0,0,0,0.3);
+    width: 85%;
+    height: 1px;
+    margin: auto;
+}
+/* .line{
+    content: "";
+    display: block;
+    background-color: rgba(0,0,0,0.3);
+    width: 100%;
+    height: 1px;
+} */
+
+.footer-content{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0 0 0 ;
+    /* border: 2px solid red; */
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--primary-color);
+    width: 80%;
+    margin: auto;
+
+
+}
+
+
+.-Link{
+    
+    color: var(--primary-color);
+}
+
+.footer-content div i{
+    color: red;
+}
+
+
+@media (max-width: 900px)
+{
+    .post-list{
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    .post-item{
+        flex-direction: column;
+        height: 90vh;
+        margin: 0 0 20px 0;
+    }
+
+    .footer-content{
+        width: 100%;
+        justify-content: space-around;   
+    }
+
+    /* .post-footer::before{
+    
+        width: 75%;
+        left: 0;
+    }
+     */
+}
+
+
