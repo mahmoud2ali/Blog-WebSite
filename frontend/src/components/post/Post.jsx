@@ -32,9 +32,8 @@ const Post = ({post})=> {
                 </div>
         
                 <div className="post-footer">
-                    <div className="line"></div>
                     <div className="footer-content">
-                        <Link className="-Link" to={`posts/categories/${post.category}`}>{post.category}</Link>
+                        <Link className="-Link" to={`/posts/categories/${post.category}`}>{post.category}</Link>
                         <div>{post.likes.length} <i class="bi bi-heart"></i></div>
                     </div>
                 </div>

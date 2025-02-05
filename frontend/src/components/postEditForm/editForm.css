@@ -1,0 +1,84 @@
+.post-form-down{
+    /* display: none; */
+    opacity: 0;
+    flex: 7;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+    padding-top: 30px;
+    clip-path: polygon(0 0 , 100% 0, 100% 0 , 0 0);
+    transition: all 0.5s ease;
+}   
+
+
+
+.post-form-title{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+input{
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.post-form-down form{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+}  
+
+.post-form-down form input{
+   margin-bottom: 10px;
+
+}  
+
+
+.post-form-down form select{
+    margin-bottom: 10px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+ 
+}  
+
+.create-post-btn{
+    background-color: transparent;
+    border: none;
+    width: 50%;
+    margin: 5px auto;
+    height: 30px;
+    transition: 0.7s ease;
+}
+
+.create-post-btn:hover{
+    color: var(--main-color);
+    background-color: var(--primary-color);
+}   
+
+
+
+.show-form{
+    display: none;
+}
+
+
+@media (max-width: 900px)
+{
+    .create-post-form{
+        width: 85%;
+        flex-direction: column;  
+        gap: 30px;  
+    }
+    
+    .post-form-left img{
+        height: 100%;
+        width: 100%;
+    }
+    .create-post-btn{
+        width: 100%;
+    }
+    
+}

@@ -7,17 +7,30 @@ import LoginPage from "./pages/forms/Login";
 import RegisterPage from "./pages/forms/Register";
 import CreatePostPage from "./pages/createPost/CreatePost";
 import AdminPage from "./pages/admin/adminPage";
+import PostDetails from "./pages/postDetails/PostDetails";
+import CategoryPage from "./pages/categoryPage/CategoryPage";
+import Profile from "./pages/profile/profile";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <Header />
       <Routes>
         <Route path="/" element={<HomePage/>} />
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/register" element={<RegisterPage/>} />
-        <Route path="/posts/" element={<PostsPage/>} />
-        <Route path="/posts/create-post" element={<CreatePostPage/>} />
+
+        <Route path="posts">
+          <Route index element={<PostsPage/>} />
+          <Route path="create-post" element={<CreatePostPage/>} />
+          <Route path="details/:id" element={<PostDetails/>} />
+          <Route path="categories/:category" element={<CategoryPage/>} />
+        </Route>
+
+
+        <Route path="/profile/:id"  element={<Profile />}/>
         <Route path="/admin" element={<AdminPage/>} />
 
       </Routes>

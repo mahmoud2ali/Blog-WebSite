@@ -1,0 +1,166 @@
+.profile{
+    width: 80%;
+    margin: 50px auto 0 auto;
+}
+.profile-header{
+    /* height: 50vh; */
+    width: 65%;
+    margin: auto;
+}
+.profile-image{
+    /* width:20vw ; */
+    display: flex;
+    gap: 25px;
+    align-items: start;
+    /* position: relative; */
+    
+}
+.profile-image-update{
+    position: relative;
+}
+.profile-image i{
+   font-size: 35px;
+   position: absolute;
+   bottom: 0px;
+   left: 90%;
+   transition: 0.5s ease;
+   cursor: pointer;
+}
+.profile-image i:hover{
+    transform: scale(1.2, 1.2);
+ }
+.profile-image img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+.profile-data{
+    margin-top: 15px;
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 150px;
+
+}
+.profile-data h4{
+    font-size: 22px;
+    font-weight: 350;
+}
+.user-date-join{
+    font-size: 14px;
+    font-weight: 250;
+}
+.user-bio{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+
+.profile-footer{
+    width: 65%;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+}
+.profile-footer form{
+    /* display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center; */
+    width: 100%;
+    margin: auto;
+    display: flex;
+}
+.profile-footer form input{
+   display: none;
+}
+.upload-profile-photo-btn{
+    background-color: transparent;
+    color: #000000;
+    width: 50%;
+    height: 40px;
+    margin: auto;
+    border: none;
+    cursor: pointer;
+    transition: 0.7s ease;
+}
+.upload-profile-photo-btn:hover{
+    background-color: #000;
+    color: #fff;
+}
+.profile-update-btn{
+    background-color: transparent;
+    color: #000000;
+    width: 50%;
+    height: 40px;
+    margin: auto;
+    border: none;
+    cursor: pointer;
+    transition: 0.7s ease;
+}
+
+.profile-update-btn:hover{
+    background-color: #000;
+    color: #fff;
+}
+
+.profile-posts-list h2{
+    width: 55%;
+    margin: auto;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.profile-delete-btn
+{
+
+        background-color: transparent;
+        color: #000000;
+        width: 50%;
+        height: 40px;
+        margin: auto;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s ease;
+    
+}
+.profile-delete-btn:hover{
+    border: 2px solid var(--hover-color);
+    color: var(--hover-color);
+}
+@media (max-width: 900px){
+    .profile-header{
+        width: 90%;
+    }
+    .profile-image{
+        flex-direction: column;
+        gap: 1px;
+    }
+    .profile-image img{
+        width: 150px;
+        height: 150px;
+    }
+    .profile-footer{
+        width: 90%;
+    }
+    .profile-footer form{
+        flex-direction: column;
+        gap: 20px;
+        align-items: start;
+    }
+   
+
+    .upload-profile-photo-btn{
+        width: 100%;
+    }
+    .profile-update-btn{
+        width: 100%;
+    }
+
+    .profile-posts-list h2{
+        width: 90%;
+    }
+}
