@@ -5,6 +5,7 @@ import { posts } from "../../dummyData";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import UpdateProfileModal from "./UpdateProfileModal";
 const Profile = () => {
    
 
@@ -13,6 +14,8 @@ const Profile = () => {
     const filterdPosts = posts.filter(post => post.user._id === id.toString());
 
     const [image, setImage] = useState(null)
+
+    const[updateProfile, setUpdateProfile] = useState(false);
 
     const updatPhotoHandler = (e)=>{
         e.preventDefault();
@@ -30,7 +33,7 @@ const Profile = () => {
                 <div className="profile-image">
 
                     <label className="profile-image-update" for={"updateImage"} > 
-                      <img src={profileImage} />
+                      <img src={image? URL.createObjectURL(image) : profileImage} />
                       <i class="bi bi-camera"></i>
                     </label>
 
@@ -51,20 +54,25 @@ const Profile = () => {
                     <input className="input-image" type="file" id="updateImage" name="file" onChange={(e)=>{setImage(e.target.files[0])}}/>
                     <button type="submit" className="upload-profile-photo-btn"> Update Image </button>
                 </form>
-                <button className="profile-update-btn">
+                <button onClick={()=>setUpdateProfile(true)} className="profile-update-btn">
                         Update Profile
                 </button>
 
                 <button className="profile-delete-btn">
                         Delete Your Account
                 </button>
-                
             </div>
             
             <div className="profile-posts-list">
                 <h2>Latest Posts</h2>
                 <PostList posts={posts} />
             </div>
+
+            {updateProfile && (
+                <UpdateProfileModal setUpdateUser={setUpdateProfile} />
+            )}
+
+            {/* <UpdateProfileModal setUpdateUser={true} /> */}
         </section>
      );
 }
