@@ -11,6 +11,7 @@ import PostDetails from "./pages/postDetails/PostDetails";
 import CategoryPage from "./pages/categoryPage/CategoryPage";
 import Profile from "./pages/profile/profile";
 import { ToastContainer } from "react-toastify";
+import UsersTable from "./pages/admin/UsersTable";
 
 function App() {
   return (
@@ -29,10 +30,10 @@ function App() {
           <Route path="categories/:category" element={<CategoryPage/>} />
         </Route>
 
-
         <Route path="/profile/:id"  element={<Profile />}/>
-        <Route path="/admin" element={<AdminPage/>} />
 
+        <Route path="/admin-dashboard" element={<AdminPage/>} />
+        <Route path="/admin-dashboard/users-table" element={<UsersTable />} />
       </Routes>
     </BrowserRouter>
   );

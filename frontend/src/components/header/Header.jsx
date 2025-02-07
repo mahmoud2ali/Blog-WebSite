@@ -24,9 +24,9 @@ const Header = () => {
                         <li className="nav-link"><i className="bi bi-journal-plus"></i> Create</li>
                         <li className="nav-link"><i className="bi bi-person-check"></i> Admin Dashboard</li> */}
                         <Link to={"/"} onClick={() =>steToggle(false)} className="nav-link">HOME</Link>
-                        <Link to={"/posts"} onClick={() =>steToggle(false)} className="nav-link">POSTS</Link>
+                        {/* <Link to={"/posts"} onClick={() =>steToggle(false)} className="nav-link">POSTS</Link> */}
                         <Link to={"/posts/create-post"} onClick={() =>steToggle(false)} className="nav-link">CREATE</Link>
-                        <Link to={"/admin"} onClick={() =>steToggle(false)} className="nav-link">ADMIN DASHBOARD</Link>
+                        <Link to={"/admin-dashboard"} onClick={() =>steToggle(false)} className="nav-link">ADMIN DASHBOARD</Link>
                         {/* <button className="nav-link">LOGIN</button>
                         <button className="nav-link">REGISTER</button> */}
                     </ul>

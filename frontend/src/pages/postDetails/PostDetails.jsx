@@ -68,7 +68,7 @@ const PostDetails = ()=> {
         <section className="post-details">
             <ToastContainer />
             <div className="post-form-above">
-                <Link className="user" to={"profile/1"}>
+                <Link className="user" to={"/profile/1"}>
                     <img className="userImage" src={post.user.image}></img>
                     <div>
                         <div>{post.user.username}</div>

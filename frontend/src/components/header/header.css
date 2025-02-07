@@ -4,7 +4,7 @@
     padding: 0 30px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     background-color: var(--main-color);
     position: relative;
     z-index: 99;
@@ -152,8 +152,7 @@
 
 }
 
-@media (max-width: 550px) {
-
+@media (max-width: 550px) {    
     .header-logo{
         font-size: 22px;
         font-weight: bold;
