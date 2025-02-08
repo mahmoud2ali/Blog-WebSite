@@ -1,32 +1,31 @@
-import { Link } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
 import AdminSidebar from "./AdminSidebar";
 import "./adminTable.css"
 import "./adminPage.css"
 import Swal from "sweetalert2";
 
-const UsersTable = () => {
-        const deletUserHandler = ()=> {
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  Swal.fire({
-                    title: "Deleted!",
-                    text: "User has been deleted.",
-                    icon: "success"
-                  });
-                }
+const CommentsTable = () => {
+    const deletCommentHandler = ()=> {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Comment has been deleted.",
+                icon: "success"
               });
-        }
-    
-    
+            }
+          });
+    }
+
+
     return ( 
         <div>
             <div className="admin-dashboard-page">
@@ -50,13 +49,13 @@ const UsersTable = () => {
                                         <tr>
                                             <th>Count</th>
                                             <th>User</th>
-                                            <th>Email</th>
+                                            <th>Comment</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {[1,2,3,4,5,6,7,8,9,10].map(
-                                            item => (
+                                            (item) => (
                                                 <tr key={item}>
                                                     <td>{item}</td>
                                                     <td>
@@ -65,14 +64,11 @@ const UsersTable = () => {
                                                             <span className="table-username">Mahmoud Mohamed</span>
                                                         </div>
                                                     </td>
-                                                    <td>mahmoud@email.com</td>
+                                                    <td>Comment Commnet Comment Commnet Comment Commnet</td>
                                                     <td>
                                                         <div className="table-btn-group">
-                                                            <button>
-                                                                <Link className="table-btn" to={"/profile/1"}>View Profile</Link>
-                                                            </button>
-                                                            <button onClick={deletUserHandler}>
-                                                                Delete User
+                                                            <button onClick={deletCommentHandler}>
+                                                                Delete Comment
                                                             </button>
                                                         </div>
                                                     </td>
@@ -88,7 +84,7 @@ const UsersTable = () => {
                 </div>
             </div>
         </div>
-     );
+    );
 }
  
-export default UsersTable;
+export default CommentsTable;
