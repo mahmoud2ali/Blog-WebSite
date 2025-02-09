@@ -6,6 +6,7 @@ const postRoute= require('./routes/postsRout');
 const commentRoute = require("./routes/commentsRoute")
 const categoriesRoute = require("./routes/categoriesRoute");
 const { errorHandler, notFound } = require("./middlewares/error");
+const cors = require('cors');
 
 require("dotenv").config();
 
@@ -14,6 +15,11 @@ connectToDb();
 const app = express();
 
 app.use(express.json());
+
+// Cors Policy
+app.use(cors({
+    origin: "http://localhost:3000",
+}));
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);

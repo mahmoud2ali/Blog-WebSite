@@ -2,12 +2,15 @@ import { Link } from "react-router-dom";
 import "./form.css"
 import { useState } from "react";
 import { toast } from "react-toastify";
+import {useDispatch} from "react-redux"
+import { loginUser } from "../../redux/apiCalls/authApiCall";
 
 const Login = ()=>{
 
     const [email, SetEmail] = useState("");
     const [password, SetPassword] = useState("");
 
+    const dispatch = useDispatch();
 
     const registerHandler = (e)=> {
         e.preventDefault();
@@ -17,7 +20,8 @@ const Login = ()=>{
             return toast.error("Complete you data");
         }
         
-        toast.success("Logged in successfully")
+        // toast.success("Logged in successfully");
+        dispatch(loginUser({email, password}))
     }
 
     return (

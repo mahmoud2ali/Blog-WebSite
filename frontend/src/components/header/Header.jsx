@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
 import "./header.css"
+import {useSelector} from "react-redux"
 const Header = () => {
     
-    const [toggle, steToggle] = useState(false)
+    const [toggle, steToggle] = useState(false);
+    const [dropDown, setDropdown] = useState(false);
+
+    const { user } = useSelector(state => state.auth);
+    
     
     return (
         <header className="header">
@@ -33,14 +38,47 @@ const Header = () => {
 
                 </nav>
                 <div className="header-right">
-                    <Link to={"/login"} className="header-right-link btn">
-                        {/* <i className="bi bi-box-arrow-in-right"></i> */}
-                        LOGIN
-                    </Link>
-                    <Link to={"/register"} className="header-right-link btn">
-                        {/* <i className="bi bi-person-plus"></i> */}
-                        REGISTER
-                    </Link>
+                    {user? 
+                        <>
+                            <div className="user-info" onClick={(e) => setDropdown(prev => !prev)}>
+                                <img className="userImage" src={user?.profilePhoto.url} alt="user photo" />
+                                {/* <i class="bi bi-caret-down-fill user-icon"></i> */}
+                                {/* <i class="bi bi-caret-down user-icon"></i> */}
+                            </div>
+                            
+                            {dropDown && 
+                                <div className="header-right-dropdown">
+
+                                    <Link to={`/profile/${user?._id}`} className="dropdown-item"
+                                    onClick={(e) => setDropdown(prev => !prev)}
+                                    >    
+                                        <i class="bi bi-person-square"></i>
+                                            {user?.username}
+                                    </Link>
+                                    <div className="dropdown-item"
+                                    onClick={(e) => setDropdown(prev => !prev)}
+                                    >
+                                        <i className="bi bi-box-arrow-in-right"></i> 
+                                        Logout
+                                    </div>
+
+                                    </div>
+                            }
+                           
+                        </>:
+                            
+          
+                        <>
+                        <Link to={"/login"} className="header-right-link btn">
+                            {/* <i className="bi bi-box-arrow-in-right"></i> */}
+                            LOGIN
+                        </Link>
+                        <Link to={"/register"} className="header-right-link btn">
+                            {/* <i className="bi bi-person-plus"></i> */}
+                            REGISTER
+                        </Link>   
+                        </>
+                    }
                 </div>
             </div>
         </header>
