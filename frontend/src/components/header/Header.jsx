@@ -1,14 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
 import "./header.css"
-import {useSelector} from "react-redux"
+import {useSelector, useDispatch} from "react-redux"
+import { logoutUser } from "../../redux/apiCalls/authApiCall";
+
 const Header = () => {
-    
+
+    const dispatch = useDispatch();
+
     const [toggle, steToggle] = useState(false);
     const [dropDown, setDropdown] = useState(false);
 
     const { user } = useSelector(state => state.auth);
     
+    const logoutHandler = () => {
+        setDropdown(false);
+        dispatch(logoutUser());
+    }
     
     return (
         <header className="header">
@@ -29,9 +37,19 @@ const Header = () => {
                         <li className="nav-link"><i className="bi bi-journal-plus"></i> Create</li>
                         <li className="nav-link"><i className="bi bi-person-check"></i> Admin Dashboard</li> */}
                         <Link to={"/"} onClick={() =>steToggle(false)} className="nav-link">HOME</Link>
-                        {/* <Link to={"/posts"} onClick={() =>steToggle(false)} className="nav-link">POSTS</Link> */}
-                        <Link to={"/posts/create-post"} onClick={() =>steToggle(false)} className="nav-link">CREATE</Link>
-                        <Link to={"/admin-dashboard"} onClick={() =>steToggle(false)} className="nav-link">ADMIN DASHBOARD</Link>
+                        <Link to={"/posts"} onClick={() =>steToggle(false)} className="nav-link">POSTS</Link>
+
+                        {user &&(
+                                <Link to={"/posts/create-post"} onClick={() =>steToggle(false)} className="nav-link">CREATE</Link>
+                            )
+                        }
+
+                        {
+                            user?.isAdmin && (
+                                <Link to={"/admin-dashboard"} onClick={() =>steToggle(false)} className="nav-link">ADMIN DASHBOARD</Link>
+                            )
+                        }
+
                         {/* <button className="nav-link">LOGIN</button>
                         <button className="nav-link">REGISTER</button> */}
                     </ul>
@@ -50,13 +68,13 @@ const Header = () => {
                                 <div className="header-right-dropdown">
 
                                     <Link to={`/profile/${user?._id}`} className="dropdown-item"
-                                    onClick={(e) => setDropdown(prev => !prev)}
+                                    onClick={(e) => setDropdown(false)}
                                     >    
                                         <i class="bi bi-person-square"></i>
                                             {user?.username}
                                     </Link>
                                     <div className="dropdown-item"
-                                    onClick={(e) => setDropdown(prev => !prev)}
+                                    onClick={logoutHandler}
                                     >
                                         <i className="bi bi-box-arrow-in-right"></i> 
                                         Logout
