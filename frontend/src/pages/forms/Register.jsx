@@ -1,9 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import "./form.css"
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../redux/apiCalls/authApiCall";
+import Swal from "sweetalert2";
 
 const RegisterPage = ()=>{
+
+
+    const dispatch = useDispatch();
+    const {registerMessage} = useSelector(state => state.auth)
+
+
+    const navigate = useNavigate();
 
     const [username, SetUsername] = useState("")
     const [email, SetEmail] = useState("")
@@ -18,7 +28,34 @@ const RegisterPage = ()=>{
             return toast.error("Complete you data");
         }
         
-        toast.success("You registerd successfully")
+        // toast.success("You registerd successfully");
+        dispatch(registerUser({username, email, password}));        
+    }
+    
+    // if(registerMessage)
+    // {
+    //     swal({
+    //         title: registerMessage,
+    //         icon: "success"
+    //     }).then(isOk => {
+    //         if(isOk)
+    //         {
+    //             navigate("/login");
+    //         }
+    //     })
+    // }
+
+    if(registerMessage)
+    {        
+        Swal.fire({
+            // title: ":)",
+            title: registerMessage,
+            icon: "success",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                navigate("/login")
+            }
+        });
     }
 
     return (

@@ -1,26 +1,30 @@
 import { useState } from "react";
 import "./updateUsermodal.css"
-const user = {
-    username: "Mahmoud Mohamed",
-    bio: "hello my name is mahmoud, I'm a web developer"
-}
-const UpdateProfileModal = ({setUpdateUser}) => {
+import { useDispatch } from "react-redux";
+import { updateUserProfile } from "../../redux/apiCalls/profileApiCall"; 
 
-    const[userName, setUserName] = useState(user.username)
-    const[bio, setBio] = useState(user.bio);
+
+const UpdateProfileModal = ({setUpdateUser, profile}) => {
+
+    const[username, setUserName] = useState(profile.username)
+    const[bio, setBio] = useState(profile.bio);
     const[password, setPassword] = useState("");
+  
+    const dispatch = useDispatch();
 
     const updateUser = (e)=>{
         e.preventDefault();
 
-        const updatedUser = {userName, bio};
+        // console.log(profile);
+        const update_user = {username, bio};
         
         if(password.trim() !== "")
         {
-            updateUser.password = password;
+            update_user.password = password;
         }
 
-        console.log(updatedUser);
+        dispatch(updateUserProfile(profile?._id, update_user));
+        setUpdateUser(false);
     }
     
     return ( 
@@ -32,7 +36,7 @@ const UpdateProfileModal = ({setUpdateUser}) => {
                     <form onSubmit={(e)=> updateUser(e) }>
                         <label for="userName">User Name</label>
                         <input type="text"  id="userName"
-                            value={userName}
+                            value={username}
                             onChange={(e)=>{setUserName(e.target.value)}}
                         />
 

@@ -1,3 +1,5 @@
+const { errorHandler } = require('../middlewares/error');
+
 require('dotenv').config();
 const cloudinary = require("cloudinary").v2;
 
@@ -8,14 +10,14 @@ cloudinary.config({
 });
 
 const cloudinaryUploadImage = async(fileToUpload) => {
-
     try {
         const data = await cloudinary.uploader.upload(fileToUpload, {
             resource_type: "auto"
         });
         return data;
     } catch(error) {
-        return error;
+        console.log(error);
+        throw new Error("internal server error (cloudinary)");
     }
 
 }
@@ -26,7 +28,8 @@ const cloudinaryremoveImage = async(imagePublicId) => {
        const result = await cloudinary.uploader.destroy(imagePublicId);
        return result;
     } catch(error) {
-        return error;
+        console.log(error);
+        throw new Error("internal server error (cloudinary)");
     }
 
 }
@@ -38,7 +41,8 @@ const cloudinaryremoveMultipleImage = async(PublicIds) => {
        const result = await cloudinary.v2.api.delete_resources(PublicIds);
        return result;
     } catch(error) {
-        return error;
+        console.log(error);
+        throw new Error("internal server error (cloudinary)");
     }
 
 }

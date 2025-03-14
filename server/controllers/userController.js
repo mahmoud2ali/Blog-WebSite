@@ -20,6 +20,7 @@ module.exports.getAllUsersCtrl = asynHandler(async(req, res) => {
 });
 
 
+// api/users/profile/:id
 module.exports.getUserProfileCtrl = asynHandler(async(req, res) => {
 
     // console.log(req.headers.authorization.split(" ")[1]);

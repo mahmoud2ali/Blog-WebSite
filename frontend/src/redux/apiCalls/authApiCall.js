@@ -13,7 +13,6 @@ export function loginUser(user){
         catch (error)
         {
             toast.error(error.response.data.message);
-            console.log(error)
         }
     }
 }
@@ -24,5 +23,20 @@ export function logoutUser(user){
     return (dispatch) => {
         dispatch(authActions.logout());
         localStorage.removeItem("userInfo");
+    }
+}
+
+
+//register user
+export function registerUser(user){
+    return async (dispatch) => {
+        try{
+            const {data} = await request.post("/api/auth/register", user)
+            dispatch(authActions.register(data.message));
+        }
+        catch (error)
+        {
+            toast.error(error.response.data.message);
+        }
     }
 }

@@ -1,14 +1,18 @@
 import "./profile.css"
-import profileImage from "../../images/user-avatar.png"
+// import profileImage from "../../images/user-avatar.png"
 import PostList from "../../components/post/PostList";
 import { posts } from "../../dummyData";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UpdateProfileModal from "./UpdateProfileModal";
+import {useDispatch, useSelector} from "react-redux"
+import { getUserProfile, uploadProfilePhoto} from "../../redux/apiCalls/profileApiCall";
+
 const Profile = () => {
    
-
+    const dispatch = useDispatch();
+    const {profile} = useSelector(state => state.profile)
     const {id} = useParams();
 
     const filterdPosts = posts.filter(post => post.user._id === id.toString());
@@ -17,6 +21,11 @@ const Profile = () => {
 
     const[updateProfile, setUpdateProfile] = useState(false);
 
+
+    useEffect(()=> {
+        dispatch(getUserProfile(id));
+    }, [id]);
+
     const updatPhotoHandler = (e)=>{
         e.preventDefault();
         if(!image)
@@ -24,7 +33,11 @@ const Profile = () => {
             return toast.warning("Click on you profile photo to add new one");
         }
 
-        toast.success("Updated successfully")
+        const formData = new FormData();
+        formData.append("image", image);
+
+        dispatch(uploadProfilePhoto(formData));
+        // toast.success("Updated successfully")
     }
 
     return ( 
@@ -33,16 +46,16 @@ const Profile = () => {
                 <div className="profile-image">
 
                     <label className="profile-image-update" for={"updateImage"} > 
-                      <img src={image? URL.createObjectURL(image) : profileImage} />
+                      <img src={image? URL.createObjectURL(image) : profile?.profilePhoto.url} />
                       <i class="bi bi-camera"></i>
                     </label>
 
                     <div className="profile-data">
-                        <h4>Mahmoud Mohamed</h4>
+                        <h4>{profile?.username}</h4>
                         <div className="user-date-join">
-                            <p>Joind At: <span>Fri Nov 04 2025</span> </p>
+                            <p>Joind At: <span>{new Date(profile?.createdAt).toDateString()}</span> </p>
                         </div>
-                        <p className="user-bio">hello my name is Mahmoud, I am a web developer</p>
+                        <p className="user-bio">{profile?.bio}</p>
                 </div>
                 </div>
             </div>
@@ -64,12 +77,12 @@ const Profile = () => {
             </div>
             
             <div className="profile-posts-list">
-                <h2>Latest Posts</h2>
+                <h2>{profile?.username}'s posts</h2>
                 <PostList posts={posts} />
             </div>
 
             {updateProfile && (
-                <UpdateProfileModal setUpdateUser={setUpdateProfile} />
+                <UpdateProfileModal profile={profile} setUpdateUser={setUpdateProfile} />
             )}
 
             {/* <UpdateProfileModal setUpdateUser={true} /> */}

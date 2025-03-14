@@ -8,6 +8,8 @@ const Header = () => {
 
     const dispatch = useDispatch();
 
+    const profilePhoto = useSelector(state=>state.profile.profilePhoto)
+
     const [toggle, steToggle] = useState(false);
     const [dropDown, setDropdown] = useState(false);
 
