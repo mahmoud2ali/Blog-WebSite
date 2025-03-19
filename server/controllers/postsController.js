@@ -5,7 +5,7 @@ const { Post, validateCreatePost, validateUpdatePost } = require("../models/Post
 const { cloudinaryUploadImage, cloudinaryremoveImage } = require("../utils/cloudinary");
 const { title } = require("process");
 const {Comment} = require("../models/Comment")
-
+const { User } = require("../models/User");
 // Create New Post
 module.exports.createPostCtrl = asyncHandler (async (req, res)=>{
     
@@ -58,7 +58,7 @@ module.exports.GetAllPostsCtrl = asyncHandler (async (req, res)=>{
             .skip((pageNumber - 1) * POST_PER_PAGE)
             .limit(POST_PER_PAGE)
             .sort({createdAt: -1})
-            .populate("user", ["-password"]);
+            .populate("user", ["name", "_id", "-password"]);
     }
     else if (category)
     {
@@ -68,10 +68,9 @@ module.exports.GetAllPostsCtrl = asyncHandler (async (req, res)=>{
     } 
     else 
     {
-        posts = await Post.find().sort({createdAt: -1})
-            .populate("user", ["-password"]);
+        posts = await Post.find().sort({createdAt: -1}).populate("user");
+        console.log(posts);
     }
-
 
     res.status(200).json({posts});
 
@@ -82,7 +81,9 @@ module.exports.GetAllPostsCtrl = asyncHandler (async (req, res)=>{
 module.exports.GetSinglePostCtrl = asyncHandler (async (req, res)=>{
     const post = await Post.findById(req.params.id)
         .populate("user", ["-password"])
-        .populate("comments");
+        .populate({path: "comments", options:{virtuals: true} });
+        
+        console.log("user's post", post.comments)
 
     if(!post)
     {

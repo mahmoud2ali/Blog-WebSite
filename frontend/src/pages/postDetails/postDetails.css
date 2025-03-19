@@ -59,12 +59,17 @@
 .likes-comments
 {
     display: flex;
-    gap: 40px;
-   
+    gap: 40px; 
+    align-items: center;
+}
+.likes-comments div
+{
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 .comment{
-    padding-left: 5px;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 .line{

@@ -3,10 +3,11 @@ import { toast } from "react-toastify";
 import "./addComment.css"
 import CommentList from "./CommentList";
 
-const AddComment = ({show}) => {
+const AddComment = ({show, comments}) => {
     
     const [text, setText] = useState("")
 
+    console.log("props comments: ", comments);
 
     const addCommentHandler = (e)=> {
         e.preventDefault();
@@ -23,8 +24,7 @@ const AddComment = ({show}) => {
                 <label form="add-comment">Add Comment</label>
                 <input onChange={(e)=>{setText(e.target.value)}} value={text} type="text" id="add-comment"></input>
                 <button type="submit" className="Add-comment-btn">Comment</button>
-          
-              <CommentList />
+              <CommentList comments= {comments}/>
             </form>
 
         </div>

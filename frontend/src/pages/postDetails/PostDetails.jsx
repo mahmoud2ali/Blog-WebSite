@@ -1,28 +1,21 @@
 import { Link, useParams } from "react-router-dom";
-import { posts } from "../../dummyData";
 import "./postDetails.css"
 import {useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify"; 
 import AddComment from "../../components/comments/AddComment";
 import EditForm from "../../components/postEditForm/EditForm";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { getSinglePost, toggleLike, deletePost } from "../../redux/apiCalls/postApiCall";
+import {useNavigate} from "react-router-dom";
 
 const PostDetails = ()=> {
     
+    const navigate = useNavigate();
 
     const [editForm, setEditForm] = useState(false);
 
-    // const [image, setImage] = useState(null);
-
     const [add_comment, setAddComment] = useState(true);
-
-
-
-    
-    useEffect(()=>{
-        window.scrollTo({top: 0, behavior:"smooth"});
-    },[])
-
   
     const handleForms = (e,num) => {
         e.preventDefault();
@@ -41,7 +34,15 @@ const PostDetails = ()=> {
         }
     }
 
+    const {id} = useParams();
+    const {user} = useSelector(state => state.auth);
+    const {singlePost} = useSelector(state => state.post);
+    const dispatch = useDispatch()
+
     const deletPostHandler = ()=> {
+    
+
+
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -52,54 +53,84 @@ const PostDetails = ()=> {
             confirmButtonText: "Yes, delete it!"
           }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
-                title: "Deleted!",
-                text: "Post has been deleted.",
-                icon: "success"
-              });
+                dispatch(deletePost(singlePost._id));
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Post has been deleted.",
+                    icon: "success"
+                });
+                setTimeout(() => {
+                    navigate("/");
+                  
+                }, 3000);
             }
-          });
+          });     
     }
 
-
-    const {id} = useParams();
-    const post = posts.find(p => p._id === parseInt(id));
+  
+    useEffect(()=>{
+        dispatch(getSinglePost(id));
+    },[dispatch])
+    // console.log("post details: ", singlePost?.comments);
+    // console.log("userID :" ,user?._id, "\npost's userID: ", singlePost?.user?._id);;
+    
     return(
         <section className="post-details">
             <ToastContainer />
             <div className="post-form-above">
                 <Link className="user" to={"/profile/1"}>
-                    <img className="userImage" src={post.user.image}></img>
+                    <img className="userImage" src={singlePost?.user?.profilePhoto?.url}></img>
                     <div>
-                        <div>{post.user.username}</div>
-                        <span>{post.createdAt}</span>
+                        <div>{singlePost?.user?.username}</div>
+                        {/* <span>{singlePost?.createdAt}</span> */}
+                        <span>{new Date(singlePost?.createdAt).toDateString()}</span>
                     </div>
                 </Link>
                 
-                <p>{post.title}</p>
-                <p className="desc">{post.description}</p>
-                <img src={post.image} />
+                <p>{singlePost?.title}</p>
+                <p className="desc">{singlePost?.description}</p>
+                <img src={singlePost?.image?.url} />
                 <div className="line"></div>
                 <div className="edit">
+                {user &&                     
                     <div className="likes-comments">
-                        <div>{post.likes.length} <i class="bi bi-heart heart"></i> </div>
                         <div>
-                            5
+                            {singlePost?.likes?.length} 
+                            <i className= {
+                                singlePost?.likes?.includes(user?._id) ? "bi bi-heart-fill heart comment" :"bi bi-heart heart comment"} 
+                                onClick={()=> dispatch(toggleLike(singlePost?._id))}>
+                            </i>
+                         </div>
+                        <div>
+                            {singlePost?.comments?.length}
                             <i onClick={(e)=>handleForms(e, 1)} class="bi bi-chat-square comment"></i>
                         </div>
                     </div>
-                    <div>
-                        <i onClick={(e)=>handleForms(e, 2)} className="bi bi-pencil-square"></i>
-                        <i onClick={deletPostHandler} className="bi bi-trash"></i>
-                    </div>
+                }
+
+
+                    {
+                        singlePost?.user?._id === user?._id && 
+                        (
+                            <div>
+                                <i onClick={(e)=>handleForms(e, 2)} className="bi bi-pencil-square"></i>
+                                <i onClick={deletPostHandler} className="bi bi-trash"></i>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
-                <div className="form-container">
-                    <EditForm show={editForm} style={{display: add_comment? "none":"flex"}}/>
 
-                    <AddComment show={add_comment} style={{display: editForm? "none":"flex"}}/> 
-                </div>
+                {   
+                    user && 
+                    <div className="form-container">
 
+                        <EditForm show={editForm} style={{display: add_comment? "none":"flex"}}/>
+                        {
+                            (<AddComment comments = {singlePost?.comments} show={add_comment} style={{display: editForm? "none":"flex"}}/> )
+                        }
+                    </div>
+                }
 
         </section>
     )

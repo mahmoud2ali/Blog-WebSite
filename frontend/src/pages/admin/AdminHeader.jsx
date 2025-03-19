@@ -1,11 +1,19 @@
 import { Link } from "react-router-dom";
 import "./adminPage.css"
-
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getPostsCount} from "../../redux/apiCalls/postApiCall"
 const AdminHeader = () => {
-    return ( 
-        <div className="admin-main-header">
 
-    
+    const {postsCount} = useSelector(state => state.post);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getPostsCount());
+    }, [dispatch])
+    console.log(postsCount)
+
+    return ( 
+        <div className="admin-main-header">  
                         
             <Link to={"/admin-dashboard/users-table"} className="admin-card">
                 <div className="admin-card-title">Users</div>
@@ -16,7 +24,7 @@ const AdminHeader = () => {
 
             <Link to={"/admin-dashboard/posts-table"} className="admin-card">
                 <div className="admin-card-title">posts</div>
-                <div className="admin-card-count">30</div>
+                <div className="admin-card-count">{postsCount}</div>
                 {/* <div className="admin-card-link">see all posts</div> */}
             </Link>
 

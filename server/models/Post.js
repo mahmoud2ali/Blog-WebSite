@@ -16,8 +16,8 @@ const postSchema = mongoose.Schema({
         minlength: 10,
     },
     user:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
     category: {
@@ -57,9 +57,9 @@ const Post = mongoose.model("Post", postSchema);
 //validate Create Post
 function validateCreatePost(Object){
     const schema = Joi.object({
-        title: Joi.string().trim().min(2).max(200).required,
-        description: Joi.string().trim().min(10).required,
-        category: Joi.string().trim().required,
+        title: Joi.string().trim().min(2).max(200).required(),
+        description: Joi.string().trim().min(10).required(),
+        category: Joi.string().trim().required(),
     });
     return schema.validate(Object)
 }

@@ -2,8 +2,12 @@ import HomeImage from "../../components/homeImage/HomeImage";
 import Slogan from "../../components/slogan/slogan";
 import "./createPost.css"
 import postImage from "../../images/postImage.avif";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {toast, ToastContainer} from "react-toastify"
+import { useDispatch, useSelector } from "react-redux";
+import {createPost} from "../../redux/apiCalls/postApiCall"
+import {useNavigate} from "react-router-dom";
+import { Triangle } from 'react-loader-spinner'
 
 const CreatePostPage = ()=>{
    
@@ -12,6 +16,10 @@ const CreatePostPage = ()=>{
     const [category, setCategory] = useState("");
     const [image, setImage] = useState(null);
    
+    const {loading, isCreated} = useSelector(state => state.post);
+
+    const dispatch = useDispatch();
+    const navigator = useNavigate();
     const CreatePost = (e)=> {
         e.preventDefault();
 
@@ -31,8 +39,20 @@ const CreatePostPage = ()=>{
         formData.append("description", description);
         formData.append("category", category);
 
-       console.log(formData);
+        
+        console.log(formData);
+        dispatch(createPost(formData))
     }
+    console.log(isCreated, loading)
+    useEffect(()=>{
+        
+        if(isCreated)
+        {
+            navigator('/');
+        }
+    }, [isCreated, navigator])
+
+  
 
     return (
         <div>
@@ -68,10 +88,27 @@ const CreatePostPage = ()=>{
                         </select> 
                         <label for="postImage">Post Image</label>
                         <input onChange={(e)=>setImage(e.target.files[0])} id="postImage" type="file"  name="file"/>
-                        <button className="create-post-btn" type="submit">Create</button>
+                        <div className="form-btn-div" >
+                            {loading ?  
+                                <Triangle
+                                visible={loading}
+                                height="50"
+                                width="50"
+                                color="#555"
+                                ariaLabel="triangle-loading"
+                                wrapperStyle={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                }}
+                                wrapperClass=""
+                                /> 
+                                : <button type="submit" className="create-post-btn">Create</button>
+                            }
+                        </div>
                     </form>
                 </div>
             </div>
+            
         </div>
    );
 }

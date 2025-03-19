@@ -19,6 +19,7 @@ module.exports.createCommentCtrl = asyncHandler(async (req, res)=>{
         userName: profile.username
     })
     
+    console.log(profile);
     res.status(201).json(comment);
 
 });
