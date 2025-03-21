@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {createPost} from "../../redux/apiCalls/postApiCall"
 import {useNavigate} from "react-router-dom";
 import { Triangle } from 'react-loader-spinner'
+import { fetchCatigories } from "../../redux/apiCalls/catigoryApiCall";
+
 
 const CreatePostPage = ()=>{
    
@@ -17,6 +19,7 @@ const CreatePostPage = ()=>{
     const [image, setImage] = useState(null);
    
     const {loading, isCreated} = useSelector(state => state.post);
+    const {catigories} = useSelector(state => state.catigory)
 
     const dispatch = useDispatch();
     const navigator = useNavigate();
@@ -45,7 +48,8 @@ const CreatePostPage = ()=>{
     }
     console.log(isCreated, loading)
     useEffect(()=>{
-        
+        dispatch(fetchCatigories());
+        console.log("create post page fetch catigories...")
         if(isCreated)
         {
             navigator('/');
@@ -78,13 +82,11 @@ const CreatePostPage = ()=>{
                             <option disabled value="">
                                 Category
                             </option>
-                            <option value="music">music</option>
-                            <option value="travilling">travilling</option>
-                            <option value="programming">programming</option>
-                            <option value="cars">cars</option>
-                            <option value="coffee & tea">coffee & tea</option>
-                            <option value="nature">nature</option>
-                            <option value="movies">movies</option>
+                            {
+                                catigories?.map(item => (
+                                    <option key={item._id} value={item.title}>{item.title}</option>
+                                ))
+                            }
                         </select> 
                         <label for="postImage">Post Image</label>
                         <input onChange={(e)=>setImage(e.target.files[0])} id="postImage" type="file"  name="file"/>

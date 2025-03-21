@@ -1,14 +1,20 @@
-import { useState} from "react";
+import { useEffect, useState} from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import "./editForm.css"
 import {useDispatch, useSelector} from "react-redux";
 import {updatePost, updatePostImage} from "../../redux/apiCalls/postApiCall"
+import { fetchCatigories } from "../../redux/apiCalls/catigoryApiCall";
+
 
 const EditForm = ({show}) => {
    
 
     const post = useSelector(state => state.post.singlePost);
+  
+  
+    const {catigories} = useSelector(state => state.catigory)
+
     const [image, setImage] = useState(null);
     const [title, setTitle] = useState(null)
     const [description, setDescription] = useState(null)
@@ -23,9 +29,7 @@ const EditForm = ({show}) => {
 
     const updatePostHandler = (e)=>{
         e.preventDefault();
-       
-        
-
+    
         const formData = new FormData();
         if(image != null)
         {
@@ -51,7 +55,13 @@ const EditForm = ({show}) => {
 
     }
    
-    
+    useEffect(()=>{
+        dispatch(fetchCatigories());
+        console.log("catigories in edit post page")
+        console.log(catigories);
+    },[dispatch])
+
+
     return ( 
         <div className={`post-form-down show`} style={{clipPath: show && "polygon(0 0 , 100% 0, 100% 100% , 0 100%)", opacity: show? 1 : 0}}>
                     <div className="post-form-title">Update Post</div>
@@ -61,7 +71,6 @@ const EditForm = ({show}) => {
                             value={title}
                             onChange={(e)=>{setTitle(e.target.value)}}
                         />
-
                         <label for="postDescription">Post Description</label>
                         <input 
                             id="Post Description"
@@ -77,13 +86,18 @@ const EditForm = ({show}) => {
                             <option disabled value={category}>
                                 Category
                             </option>
-                            <option value="music">music</option>
-                            <option value="travilling">travilling</option>
+                            {
+                                catigories?.map(item =>(
+                                    <option key={item._id} value={item.title}>{item.title}</option>
+                                ))
+                            }
+                            
+                            {/* <option value="travilling">travilling</option>
                             <option value="programming">programming</option>
                             <option value="cars">cars</option>
                             <option value="coffee & tea">coffee & tea</option>
                             <option value="nature">nature</option>
-                            <option value="movies">movies</option>
+                            <option value="movies">movies</option> */}
                         </select> 
                         <label for="postImage">Post Image</label>
                         <input  id="postImage" type="file" name="file" 
