@@ -86,6 +86,11 @@
     /* border: 2px solid red; */
 }
 
+.comments-list-post-details-page{
+    width: 80%;
+    margin: auto;
+}
+
 @media (max-width: 900px)
 {
     .post-details{

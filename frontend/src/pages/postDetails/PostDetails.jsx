@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { getSinglePost, toggleLike, deletePost } from "../../redux/apiCalls/postApiCall";
 import {useNavigate} from "react-router-dom";
+import CommentList from "../../components/comments/CommentList";
 
 const PostDetails = ()=> {
     
@@ -122,15 +123,21 @@ const PostDetails = ()=> {
             </div>
 
                 {   
-                    user && 
+                    user? 
                     <div className="form-container">
 
                         <EditForm show={editForm} style={{display: add_comment? "none":"flex"}}/>
                         {
-                            (<AddComment comments = {singlePost?.comments} show={add_comment} style={{display: editForm? "none":"flex"}}/> )
+                            (<AddComment postId = {singlePost?._id} comments = {singlePost?.comments} show={add_comment} style={{display: editForm? "none":"flex"}}/> )
                         }
+                    </div> :
+                    <div className="comments-list-post-details-page">
+                    <CommentList comments= {singlePost?.comments}/>
                     </div>
+                    
                 }
+
+        
 
         </section>
     )

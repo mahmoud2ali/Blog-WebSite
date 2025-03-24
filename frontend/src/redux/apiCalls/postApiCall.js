@@ -203,3 +203,25 @@ export function deletePost(postId){
         }
     }
 }
+
+
+export function getProfilePosts(postId){
+    return async (dispatch, getState) => {
+        try{
+            const token = getState().auth.user.token;
+            await request.delete(`/api/posts/${postId}`, 
+                {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                    }
+                }
+            )
+            // toast.success("Post deleted successfully");
+            dispatch(postActions.deletePost(postId));
+        }
+        catch (error)
+        {
+            toast.error(error.response.data.message);
+        }
+    }
+}

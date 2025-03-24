@@ -58,10 +58,6 @@ export function updateUserProfile(userId, profile){
 
             dispatch(profileActions.updateProfile(data));
             dispatch(authActions.setUsername(data.username));
-
-            // const user = JSON.parse(localStorage.getItem("userInfo"))
-            // user.username = data?.username;
-            // localStorage.setItem("userInfo", JSON.stringify(user));
         }
         catch (error)
         {

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-
 const postSlice = createSlice({
     name: "post",
     initialState:{
@@ -51,6 +50,16 @@ const postSlice = createSlice({
         },
         deletePost(state, action){
             state.posts = state.posts.filter(post => post._id !== action.payload);
+        },
+        addComment(state, action){
+            state.singlePost.comments.push(action.payload)
+        }
+        , 
+        deleteComment(state, action){
+            const comment = state.singlePost.comments.find(c => c._id == action.payload);
+            const commentIndex = state.singlePost.comments.indexOf(comment);
+
+            state.singlePost.comments.splice(commentIndex, 1);
         }
     }
 })

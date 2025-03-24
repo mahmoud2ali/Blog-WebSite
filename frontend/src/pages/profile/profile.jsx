@@ -1,21 +1,23 @@
 import "./profile.css"
 // import profileImage from "../../images/user-avatar.png"
 import PostList from "../../components/post/PostList";
-import { posts } from "../../dummyData";
+// import { posts } from "../../dummyData";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import UpdateProfileModal from "./UpdateProfileModal";
 import {useDispatch, useSelector} from "react-redux"
 import { getUserProfile, uploadProfilePhoto} from "../../redux/apiCalls/profileApiCall";
+import Post from "../../components/post/Post";
 
 const Profile = () => {
    
     const dispatch = useDispatch();
     const {profile} = useSelector(state => state.profile)
     const {id} = useParams();
+    const {user} = useSelector(state => state.auth)
 
-    const filterdPosts = posts.filter(post => post.user._id === id.toString());
+    // const filterdPosts = posts.filter(post => post.user._id === id.toString());
 
     const [image, setImage] = useState(null)
 
@@ -45,11 +47,20 @@ const Profile = () => {
             <div className="profile-header">
                 <div className="profile-image">
 
-                    <label className="profile-image-update" for={"updateImage"} > 
-                      <img src={image? URL.createObjectURL(image) : profile?.profilePhoto.url} />
-                      <i class="bi bi-camera"></i>
-                    </label>
-
+                    {
+                        user?._id == id ? 
+                        (
+                            <label className="profile-image-update" for={"updateImage"} > 
+                                <img src={image? URL.createObjectURL(image) : profile?.profilePhoto.url} />
+                                <i class="bi bi-camera"></i>
+                            </label>
+                        ) : 
+                        (
+                            <label className="profile-image-update"> 
+                                <img src={profile?.profilePhoto.url} />
+                            </label>
+                        )
+                    }
                     <div className="profile-data">
                         <h4>{profile?.username}</h4>
                         <div className="user-date-join">
@@ -59,26 +70,32 @@ const Profile = () => {
                 </div>
                 </div>
             </div>
-            <div className="profile-footer">
-                <form onSubmit={(e)=>updatPhotoHandler(e)}>
-                    {/* <label for={"updateImage"} htmlFor="file" className="">
-                        Clik On Image To Update
-                    </label> */}
-                    <input className="input-image" type="file" id="updateImage" name="file" onChange={(e)=>{setImage(e.target.files[0])}}/>
-                    <button type="submit" className="upload-profile-photo-btn"> Update Image </button>
-                </form>
-                <button onClick={()=>setUpdateProfile(true)} className="profile-update-btn">
-                        Update Profile
-                </button>
+            {
+                user?._id == id && 
+                (<div className="profile-footer">
+                    <form onSubmit={(e)=>updatPhotoHandler(e)}>
+                        <input className="input-image" type="file" id="updateImage" name="file" onChange={(e)=>{setImage(e.target.files[0])}}/>
+                        <button type="submit" className="upload-profile-photo-btn"> Update Image </button>
+                    </form>
+                    <button onClick={()=>setUpdateProfile(true)} className="profile-update-btn">
+                            Update Profile
+                    </button>
 
-                <button className="profile-delete-btn">
-                        Delete Your Account
-                </button>
-            </div>
+                    <button className="profile-delete-btn">
+                            Delete Your Account
+                    </button>
+                </div>)
+            }
             
             <div className="profile-posts-list">
                 <h2>{profile?.username}'s posts</h2>
-                <PostList posts={posts} />
+                <div style={{width: "65%", margin: "auto"}}>
+                    {
+                        profile?.posts.map(post=>(
+                            <Post post={post} key={post._id} postKey={post._id}  username={profile?.username} userId={profile?._id} />
+                        ))
+                    }
+                </div>
             </div>
 
             {updateProfile && (

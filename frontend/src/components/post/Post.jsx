@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import { toggleLikeHome } from "../../redux/apiCalls/postApiCall";
 
-const Post = ({post})=> {
+const Post = ({post, username, userId})=> {
     const user = useSelector(state => state.auth.user);
     const dispatch = useDispatch()
+    const profileLink = userId ?  `/profile/${userId}` : `/profile/${post?.user?._id}`
 
     return (
         <div className="post-item">
@@ -15,12 +16,12 @@ const Post = ({post})=> {
             <div className="right">
 
                 <div className="about">
-                    <Link className="about-user" to={`/profile/${post?.user?._id}`}>
+                    <Link className="about-user" to={profileLink}>
                         {/* <div>
                             {post?.user?.profilePhoto?.url && <img className="userImage" src={post?.user?.profilePhoto?.url} alt="profile" /> }
                         </div> */}
                         <div className="userName">
-                            {post?.user.username}
+                            {username ? username : post?.user.username}
                         </div>
                     </Link>
 

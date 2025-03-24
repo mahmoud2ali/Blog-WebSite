@@ -1,11 +1,15 @@
 import Swal from "sweetalert2";
 import moment from "moment";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteComment } from "../../redux/apiCalls/commentApiCall";
+
 
 const CommentList = ({comments}) => {
    
+    const dispatch = useDispatch();
+
     console.log(Array.isArray(comments));
-     const deletCommentHandler = ()=> {
+     const deletCommentHandler = (commentId)=> {
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -16,6 +20,7 @@ const CommentList = ({comments}) => {
                 confirmButtonText: "Yes, delete it!"
               }).then((result) => {
                 if (result.isConfirmed) {
+                    dispatch(deleteComment(commentId))
                   Swal.fire({
                     title: "Deleted!",
                     text: "Post has been deleted.",
@@ -36,7 +41,7 @@ const CommentList = ({comments}) => {
             {comments?.map(comment => (
                 <div key={comment}>
                     <div className="comment-item">
-                        <div className="comment-item-username">{comment.usename}</div>
+                        <div className="comment-item-username">{comment.userName}</div>
                         <div className="comment-item-time">{moment(comment.createdAt).fromNow()}</div>
                         <div className="comment-item-footer">
                             <div className="comment-item-text">{comment.text}</div>
@@ -44,7 +49,7 @@ const CommentList = ({comments}) => {
                                 {/* <i className="bi bi-pencil-square"></i> */}
                                 {
                                     user && 
-                                    <i onClick={deletCommentHandler} className="bi bi-trash"></i>
+                                    <i onClick={() => deletCommentHandler(comment._id)} className="bi bi-trash"></i>
                                 }
                             </div>
                         </div>

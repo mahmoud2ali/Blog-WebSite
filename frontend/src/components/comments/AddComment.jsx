@@ -2,12 +2,16 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import "./addComment.css"
 import CommentList from "./CommentList";
+import { useDispatch } from "react-redux";
+import { createComment } from "../../redux/apiCalls/commentApiCall";
 
-const AddComment = ({show, comments}) => {
+const AddComment = ({show, comments, postId}) => {
     
     const [text, setText] = useState("")
 
     console.log("props comments: ", comments);
+
+    const dispatch = useDispatch()
 
     const addCommentHandler = (e)=> {
         e.preventDefault();
@@ -15,6 +19,7 @@ const AddComment = ({show, comments}) => {
         if(!text)
             return toast.error("You don't add any text");
 
+        dispatch(createComment({text, postId}))
         console.log(text);
     }
 
