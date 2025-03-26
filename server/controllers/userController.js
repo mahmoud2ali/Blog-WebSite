@@ -56,7 +56,7 @@ module.exports.UpdateUserProfile  = asynHandler(async(req, res) => {
             password: req.body.password,
             bio: req.body.bio
         }
-    }, {new: true}).select("-password");
+    }, {new: true}).select("-password").populate("posts");
 
     res.status(200).json(updatedUser);
 

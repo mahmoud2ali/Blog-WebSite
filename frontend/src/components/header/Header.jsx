@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { Link } from "react-router-dom"
 import "./header.css"
 import {useSelector, useDispatch} from "react-redux"
@@ -19,7 +19,7 @@ const Header = () => {
         setDropdown(false);
         dispatch(logoutUser());
     }
-    
+
     return (
         <header className="header">
             <div className="header-left">

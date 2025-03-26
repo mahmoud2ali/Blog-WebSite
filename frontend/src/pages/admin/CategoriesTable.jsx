@@ -4,10 +4,19 @@ import AdminSidebar from "./AdminSidebar";
 import "./adminTable.css"
 import "./adminPage.css"
 import Swal from "sweetalert2";
-import { categories } from "../../dummyData";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCategory, fetchCatigories } from "../../redux/apiCalls/catigoryApiCall";
+// import { categories } from "../../dummyData";
+
 
 const CategoriesTable = () => {
-    const deletPostHandler = ()=> {
+
+    const {catigories} = useSelector(state => state.catigory);
+
+    const dispatch = useDispatch()
+
+    const deletCategoryHandler = (categoryId)=> {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -18,6 +27,8 @@ const CategoriesTable = () => {
             confirmButtonText: "Yes, delete it!"
           }).then((result) => {
             if (result.isConfirmed) {
+                
+                dispatch(deleteCategory(categoryId))
               Swal.fire({
                 title: "Deleted!",
                 text: "Category has been deleted.",
@@ -27,6 +38,9 @@ const CategoriesTable = () => {
           });
     }
 
+    useEffect(()=>{
+        dispatch(fetchCatigories());
+    },[])
 
     return ( 
         <div>
@@ -55,9 +69,9 @@ const CategoriesTable = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {categories.map(
+                                        {catigories?.map(
                                             (item, index) => (
-                                                <tr key={item}>
+                                                <tr key={item._id}>
                                                     <td>{index + 1}</td>
                                                     {/* <td>
                                                         <div className="table-image">
@@ -71,7 +85,7 @@ const CategoriesTable = () => {
                                                             {/* <button>
                                                                 <Link className="table-btn" to={`/posts/details/${item._id}`}>View Post</Link>
                                                             </button> */}
-                                                            <button onClick={deletPostHandler}>
+                                                            <button onClick={()=>deletCategoryHandler(item._id)}>
                                                                 Delete Category
                                                             </button>
                                                         </div>

@@ -4,9 +4,12 @@ import AdminSidebar from "./AdminSidebar";
 import "./adminTable.css"
 import "./adminPage.css"
 import Swal from "sweetalert2";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers, deleteUserProfile } from "../../redux/apiCalls/profileApiCall";
 
 const UsersTable = () => {
-        const deletUserHandler = ()=> {
+        const deletUserHandler = (userId)=> {
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -17,6 +20,7 @@ const UsersTable = () => {
                 confirmButtonText: "Yes, delete it!"
               }).then((result) => {
                 if (result.isConfirmed) {
+                   dispatch(deleteUserProfile(userId));    
                   Swal.fire({
                     title: "Deleted!",
                     text: "User has been deleted.",
@@ -25,8 +29,14 @@ const UsersTable = () => {
                 }
               });
         }
+
+    const dispatch = useDispatch();
+    const {users} = useSelector(state => state.profile)
     
-    
+    useEffect(()=>{
+        dispatch(fetchUsers());
+    })
+
     return ( 
         <div>
             <div className="admin-dashboard-page">
@@ -55,23 +65,23 @@ const UsersTable = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {[1,2,3,4,5,6,7,8,9,10].map(
-                                            item => (
-                                                <tr key={item}>
-                                                    <td>{item}</td>
+                                        {users?.map(
+                                            (item,index)=> (
+                                                <tr key={item._id}>
+                                                    <td>{index + 1}</td>
                                                     <td>
                                                         <div className="table-image">
-                                                            <img src="/images/user-avatar.png"  className="table-user-img"/>
-                                                            <span className="table-username">Mahmoud Mohamed</span>
+                                                            <img src={item.profilePhoto?.url}  className="table-user-img"/>
+                                                            <span className="table-username">{item.username}</span>
                                                         </div>
                                                     </td>
-                                                    <td>mahmoud@email.com</td>
+                                                    <td>{item.email}</td>
                                                     <td>
                                                         <div className="table-btn-group">
                                                             <button>
-                                                                <Link className="table-btn" to={"/profile/1"}>View Profile</Link>
+                                                                <Link className="table-btn" to={`/profile/${item._id}`}>View Profile</Link>
                                                             </button>
-                                                            <button onClick={deletUserHandler}>
+                                                            <button onClick={()=>deletUserHandler(item._id)}>
                                                                 Delete User
                                                             </button>
                                                         </div>

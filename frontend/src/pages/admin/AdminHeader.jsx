@@ -3,12 +3,18 @@ import "./adminPage.css"
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getPostsCount} from "../../redux/apiCalls/postApiCall"
+import { fetchCatigories } from "../../redux/apiCalls/catigoryApiCall";
+import { fetchUsers } from "../../redux/apiCalls/profileApiCall";
 const AdminHeader = () => {
 
     const {postsCount} = useSelector(state => state.post);
+    const {catigories} = useSelector(state => state.catigory);
+    const {users} = useSelector(state => state.profile)
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getPostsCount());
+        dispatch(fetchCatigories());
+        dispatch(fetchUsers())
     }, [dispatch])
     console.log(postsCount)
 
@@ -17,7 +23,7 @@ const AdminHeader = () => {
                         
             <Link to={"/admin-dashboard/users-table"} className="admin-card">
                 <div className="admin-card-title">Users</div>
-                <div className="admin-card-count">120</div>
+                <div className="admin-card-count">{users.length}</div>
                 {/* <div className="admin-card-link">see all users</div> */}
             </Link>
 
@@ -36,7 +42,7 @@ const AdminHeader = () => {
 
             <Link to={"/admin-dashboard/categories-table"} className="admin-card">
                 <div className="admin-card-title">categories</div>
-                <div className="admin-card-count">5</div>
+                <div className="admin-card-count">{catigories.length}</div>
                 {/* <div  className="admin-card-link">see all categories</div> */}
             </Link>
 

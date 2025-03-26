@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-
 const initialState = {
     catigories: []
 }
@@ -11,6 +10,13 @@ const catigorySlice = createSlice({
     reducers: {
         setCatigories(state, action){
             state.catigories = action.payload;
+        },
+        addCategory(state, action){
+            state.catigories.push(action.payload);
+        },
+        deleteCategory(state, action)
+        {
+            state.catigories = state.catigories.filter(c => c._id != action.payload);
         }
     }
 })
