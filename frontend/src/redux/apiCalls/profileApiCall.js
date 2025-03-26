@@ -57,6 +57,7 @@ export function updateUserProfile(userId, profile){
             });
 
             dispatch(profileActions.updateProfile(data));
+            console.log( "data in update user api call",data);
             dispatch(authActions.setUsername(data.username));
         }
         catch (error)
@@ -65,3 +66,30 @@ export function updateUserProfile(userId, profile){
         }
     }
 }
+
+
+export function deleteUserProfile(userId){
+    return async (dispatch, getState) => {
+        try{
+            const {data} = await request.delete(`api/users/profile/${userId}` , {
+                headers:{
+                    Authorization: "Bearer " +  getState().auth.user.token}
+                });
+
+            dispatch(profileActions.setDeleted());
+            toast.success(data?.message);
+            setTimeout(() => {
+                dispatch(profileActions.clearDeleted());
+            }, 3000); 
+        }
+        catch (error)
+        {
+            toast.error(error.response.data.message);
+        }
+    }
+}
+
+
+
+
+

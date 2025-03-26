@@ -38,7 +38,8 @@ const cloudinaryremoveImage = async(imagePublicId) => {
 const cloudinaryremoveMultipleImage = async(PublicIds) => {
 
     try {
-       const result = await cloudinary.v2.api.delete_resources(PublicIds);
+        console.log("Deleting images with Public IDs:", PublicIds);
+       const result = await cloudinary.api.delete_resources(PublicIds, {resource_type: 'image'});
        return result;
     } catch(error) {
         console.log(error);

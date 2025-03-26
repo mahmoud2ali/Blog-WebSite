@@ -133,16 +133,18 @@ module.exports.deleteUserProfileCtrl = asynHandler(async(req, res) => {
     // TODO - delete all posts from DB
     const posts = await Post.find({user: user._id});
     const publicIds = posts?.map((post) => post.image.publicId);
-
     if(publicIds?.length > 0)
     {
         await cloudinaryremoveMultipleImage(publicIds);
     }
 
-    await cloudinaryremoveImage(user.profilePhoto.publicId); 
+    if(user.profilePhoto.publicId != null){
+        // console.log("remove profile image...");
+        await cloudinaryremoveImage(user.profilePhoto.publicId); 
+    }
 
     // Delete user posts & comments
-    await Post.deletMany({user: user._id});
+    await Post.deleteMany({user: user._id});
     await Comment.deleteMany({user : user._id});
 
     await User.findByIdAndDelete(req.params.id);
