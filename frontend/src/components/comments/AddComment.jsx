@@ -14,7 +14,7 @@ const AddComment = ({show, comments, postId}) => {
     const dispatch = useDispatch()
 
     const addCommentHandler = (e)=> {
-        e.preventDefault();
+        // e.preventDefault();
 
         if(!text)
             return toast.error("You don't add any text");

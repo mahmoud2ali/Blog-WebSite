@@ -71,7 +71,7 @@ const PostDetails = ()=> {
   
     useEffect(()=>{
         dispatch(getSinglePost(id));
-    },[dispatch])
+    })
     // console.log("post details: ", singlePost?.comments);
     // console.log("userID :" ,user?._id, "\npost's userID: ", singlePost?.user?._id);;
     

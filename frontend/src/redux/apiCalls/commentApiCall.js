@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { postActions } from "../slices/postSlice";
 import request from "../../utils/request"
+import { commentActions } from "../slices/commentSlice";
 
 export function createComment(newComment)
 {
@@ -36,10 +37,37 @@ export function deleteComment(commentId)
                     }
                 });
             
-            dispatch(postActions.deleteComment(commentId))
+                dispatch(commentActions.deleteComment(commentId));
+                if(getState().post.singlePost?.comments){
+                    dispatch(postActions.deleteComment(commentId));
+                }
         }
+        catch(error){
+            toast.error(error.response.data.message);
+            
+        }
+    }
+}
+
+
+export function fetchComments()
+{
+    return async (dispatch, getState) => {
+        try{
+            const token = getState().auth.user.token;
+            const {data} = await request.get(`/api/comments`,
+                {
+                    headers:{
+                        Authorization: "Bearer " + token
+                    }
+                });
+            
+                dispatch(commentActions.getAllComments(data));
+            }
         catch(error){
             toast.error(error.response.data.message);
         }
     }
 }
+
+

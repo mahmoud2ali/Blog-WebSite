@@ -56,10 +56,13 @@ const postSlice = createSlice({
         }
         , 
         deleteComment(state, action){
-            const comment = state.singlePost.comments.find(c => c._id == action.payload);
-            const commentIndex = state.singlePost.comments.indexOf(comment);
+            // const comment = state.singlePost.comments.find(c => c._id == action.payload);
+            const commentIndex = state.singlePost.comments.indexOf(c => c._id === action.payload);
+            if(commentIndex!== -1)
+            {
+                state.singlePost.comments.splice(commentIndex, 1);
+            }
 
-            state.singlePost.comments.splice(commentIndex, 1);
         }
     }
 })

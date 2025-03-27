@@ -4,10 +4,23 @@ import AdminSidebar from "./AdminSidebar";
 import "./adminTable.css"
 import "./adminPage.css"
 import Swal from "sweetalert2";
-import { posts } from "../../dummyData";
+// import { posts } from "../../dummyData";
+import { useEffect } from "react";
+import {fetchPosts, deletePost } from "../../redux/apiCalls/postApiCall"
+import { useSelector, useDispatch } from "react-redux";
 
 const PostsTable = () => {
-    const deletPostHandler = ()=> {
+
+    const { posts }= useSelector(state => state.post);
+    // console.log("home page Posts",posts)
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(fetchPosts());
+    },[dispatch])
+    console.log("in use effect ", posts);
+
+
+    const deletPostHandler = (postId)=> {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -18,6 +31,7 @@ const PostsTable = () => {
             confirmButtonText: "Yes, delete it!"
           }).then((result) => {
             if (result.isConfirmed) {
+                dispatch(deletePost(postId))
               Swal.fire({
                 title: "Deleted!",
                 text: "Post has been deleted.",
@@ -56,7 +70,7 @@ const PostsTable = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {posts.map(
+                                        {posts?.map(
                                             (item, index) => (
                                                 <tr key={item._id}>
                                                     <td>{index + 1}</td>
@@ -72,7 +86,7 @@ const PostsTable = () => {
                                                             <button>
                                                                 <Link className="table-btn" to={`/posts/details/${item._id}`}>View Post</Link>
                                                             </button>
-                                                            <button onClick={deletPostHandler}>
+                                                            <button onClick={()=>deletPostHandler(item._id)}>
                                                                 Delete Post
                                                             </button>
                                                         </div>

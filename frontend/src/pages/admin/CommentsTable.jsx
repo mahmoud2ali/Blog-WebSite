@@ -3,9 +3,16 @@ import AdminSidebar from "./AdminSidebar";
 import "./adminTable.css"
 import "./adminPage.css"
 import Swal from "sweetalert2";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { deleteComment, fetchComments } from "../../redux/apiCalls/commentApiCall";
 
 const CommentsTable = () => {
-    const deletCommentHandler = ()=> {
+
+
+    const {comments} = useSelector(state => state.comment);
+    
+    const deletCommentHandler = (commentId)=> {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -16,6 +23,7 @@ const CommentsTable = () => {
             confirmButtonText: "Yes, delete it!"
           }).then((result) => {
             if (result.isConfirmed) {
+                dispatch(deleteComment(commentId))
               Swal.fire({
                 title: "Deleted!",
                 text: "Comment has been deleted.",
@@ -24,7 +32,11 @@ const CommentsTable = () => {
             }
           });
     }
+    const dispatch = useDispatch();
 
+    useEffect(()=>{
+        dispatch(fetchComments());    
+    })
 
     return ( 
         <div>
@@ -54,20 +66,20 @@ const CommentsTable = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {[1,2,3,4,5,6,7,8,9,10].map(
-                                            (item) => (
-                                                <tr key={item}>
-                                                    <td>{item}</td>
+                                        {comments?.map(
+                                            (item, index) => (
+                                                <tr key={item._id}>
+                                                    <td>{index + 1}</td>
                                                     <td>
                                                         <div className="table-image">
-                                                            <img src="/images/user-avatar.png"  className="table-user-img"/>
-                                                            <span className="table-username">Mahmoud Mohamed</span>
+                                                            <img src={item.userId?.profilePhoto?.url} className="table-user-img"/>
+                                                            <span className="table-username">{item.userId?.username} </span>
                                                         </div>
                                                     </td>
-                                                    <td>Comment Commnet Comment Commnet Comment Commnet</td>
+                                                    <td>{item.text}</td>
                                                     <td>
                                                         <div className="table-btn-group">
-                                                            <button onClick={deletCommentHandler}>
+                                                            <button onClick={()=>deletCommentHandler(item._id)}>
                                                                 Delete Comment
                                                             </button>
                                                         </div>

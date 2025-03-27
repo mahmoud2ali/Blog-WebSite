@@ -8,8 +8,12 @@ const commentSlice = createSlice({
     name: "comment",
     initialState,
     reducers: {
-        setComments(state, action){
+        getAllComments(state, action){
             state.comments = action.payload;
+        },
+        deleteComment(state, action)
+        {
+            state.comments = state.comments.filter(c => c !== action.payload)
         }
     }
 })
