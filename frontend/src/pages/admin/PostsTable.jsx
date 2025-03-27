@@ -76,7 +76,7 @@ const PostsTable = () => {
                                                     <td>{index + 1}</td>
                                                     <td>
                                                         <div className="table-image">
-                                                            <img src="/images/user-avatar.png"  className="table-user-img"/>
+                                                            <img src={item.user?.profilePhoto?.url}  className="table-user-img"/>
                                                             <span className="table-username">{item.user.username}</span>
                                                         </div>
                                                     </td>
