@@ -1,7 +1,7 @@
 import Post from "./Post"
 import "./post.css"
 const PostList = ({posts})=> {
-    console.log("postList", posts)
+    // console.log("postList", posts)
 
     return (
         <div className="post-list">

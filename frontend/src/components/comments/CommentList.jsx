@@ -8,7 +8,7 @@ const CommentList = ({comments}) => {
    
     const dispatch = useDispatch();
 
-    console.log(Array.isArray(comments));
+    // console.log(Array.isArray(comments));
      const deletCommentHandler = (commentId)=> {
             Swal.fire({
                 title: "Are you sure?",
@@ -33,8 +33,7 @@ const CommentList = ({comments}) => {
 
         const {user} = useSelector(state => state.auth);
         // comments?.map(comment => {console.log(comment.userId)})
-
-    
+    // console.log(comments)
     return ( 
         <div>
             <h4 className="num-of-comments">Comments: {comments?.length}</h4>
@@ -48,9 +47,10 @@ const CommentList = ({comments}) => {
                             <div>
                                 {/* <i className="bi bi-pencil-square"></i> */}
                                 {
-                                    user && 
+                                    user._id == comment.userId && 
                                     <i onClick={() => deletCommentHandler(comment._id)} className="bi bi-trash"></i>
                                 }
+                                
                             </div>
                         </div>
                     </div>

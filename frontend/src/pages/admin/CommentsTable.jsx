@@ -36,7 +36,7 @@ const CommentsTable = () => {
 
     useEffect(()=>{
         dispatch(fetchComments());    
-    })
+    },[])
 
     return ( 
         <div>

@@ -20,7 +20,7 @@ const AddComment = ({show, comments, postId}) => {
             return toast.error("You don't add any text");
 
         dispatch(createComment({text, postId}))
-        console.log(text);
+        // console.log(text);
     }
 
     return ( 

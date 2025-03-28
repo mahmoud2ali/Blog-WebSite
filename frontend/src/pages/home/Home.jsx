@@ -17,7 +17,7 @@ const HomePage = ()=>{
     useEffect(()=>{
         dispatch(fetchPosts());
     },[dispatch])
-    console.log("in use effect ", posts);
+    // console.log("in use effect ", posts);
 
 
     return (

@@ -57,8 +57,8 @@ const EditForm = ({show}) => {
    
     useEffect(()=>{
         dispatch(fetchCatigories());
-        console.log("catigories in edit post page")
-        console.log(catigories);
+        // console.log("catigories in edit post page")
+        // console.log(catigories);
     },[dispatch])
 
 

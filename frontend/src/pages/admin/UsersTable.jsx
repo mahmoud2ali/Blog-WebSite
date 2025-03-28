@@ -35,7 +35,7 @@ const UsersTable = () => {
     
     useEffect(()=>{
         dispatch(fetchUsers());
-    })
+    },[])
 
     return ( 
         <div>

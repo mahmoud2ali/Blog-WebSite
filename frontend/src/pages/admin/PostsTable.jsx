@@ -17,7 +17,7 @@ const PostsTable = () => {
     useEffect(()=>{
         dispatch(fetchPosts());
     },[dispatch])
-    console.log("in use effect ", posts);
+    // console.log("in use effect ", posts);
 
 
     const deletPostHandler = (postId)=> {

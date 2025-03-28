@@ -19,7 +19,7 @@ const AdminHeader = () => {
         dispatch(fetchUsers());
         dispatch(fetchComments());
     }, [dispatch])
-    console.log(postsCount)
+    // console.log(postsCount)
 
     return ( 
         <div className="admin-main-header">  
