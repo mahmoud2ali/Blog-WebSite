@@ -47,7 +47,7 @@ const CommentList = ({comments}) => {
                             <div>
                                 {/* <i className="bi bi-pencil-square"></i> */}
                                 {
-                                    user._id == comment.userId && 
+                                    user?._id == comment.userId && 
                                     <i onClick={() => deletCommentHandler(comment._id)} className="bi bi-trash"></i>
                                 }
                                 
