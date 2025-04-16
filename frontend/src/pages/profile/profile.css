@@ -113,7 +113,10 @@
     font-size: 20px;
     font-weight: 300;
 }
-
+.profile-post{
+    width: 65%;
+    margin: auto;
+}
 .profile-delete-btn
 {
 
@@ -163,4 +166,11 @@
     .profile-posts-list h2{
         width: 90%;
     }
+
+}
+
+@media (max-width: 500px)
+{
+    .profile-post{
+        width: 100%}
 }

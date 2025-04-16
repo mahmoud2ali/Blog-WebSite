@@ -111,7 +111,7 @@ const Profile = () => {
             
             <div className="profile-posts-list">
                 <h2>{profile?.username}'s posts</h2>
-                <div style={{width: "65%", margin: "auto"}}>
+                <div className="profile-post">
                     {
                         profile?.posts?.map(post=>(
                             <Post post={post} key={post._id} postKey={post._id}  username={profile?.username} userId={profile?._id} />

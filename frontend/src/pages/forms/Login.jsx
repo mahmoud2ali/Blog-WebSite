@@ -27,7 +27,7 @@ const Login = ()=>{
     return (
         <div className="-form-container">
             <form className="-form" onSubmit={(e) => registerHandler(e)}>
-                <div className="form-header">Create new account</div>
+                <div className="form-header">Login</div>
                 <div className="form-body">
                     
                     <label for="email">email</label>
