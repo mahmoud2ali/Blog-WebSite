@@ -34,8 +34,8 @@ app.use(errorHandler);
 
 
 const PORT = process.env.PORT || 8000;
-// app.listen(PORT, ()=>{
-//     console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`)
-// });
+app.listen(PORT, ()=>{
+    console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+});
 
 module.exports.handler = serverless(app);
