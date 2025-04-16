@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app"
+    "dev": "nodemon app",
+    "build": "echo 'no build needed'"
   },
   "author": "mahmoud",
   "license": "ISC",
