@@ -5,6 +5,7 @@ const usersRoute = require("./routes/usersRoute")
 const postRoute= require('./routes/postsRout');
 const commentRoute = require("./routes/commentsRoute")
 const categoriesRoute = require("./routes/categoriesRoute");
+const serverless = require("serverless-http");
 const { errorHandler, notFound } = require("./middlewares/error");
 const cors = require('cors');
 
@@ -18,7 +19,7 @@ app.use(express.json());
 
 // Cors Policy
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "*",
 }));
 
 app.use("/api/auth", authRoute);
@@ -36,3 +37,5 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, ()=>{
     console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`)
 });
+
+module.exports.handler = serverless(app);
